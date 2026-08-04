@@ -1,0 +1,5 @@
+[
+  "constructor(address,bool) payable",
+  "function register() payable",
+  "function xban() view returns (address)"
+]

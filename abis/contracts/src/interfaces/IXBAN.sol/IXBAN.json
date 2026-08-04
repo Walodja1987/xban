@@ -1,0 +1,17 @@
+[
+  "event FeesClaimed(address indexed,address indexed,uint256)",
+  "event Registered(uint64 indexed,address indexed,address indexed)",
+  "function accountComponentOf(uint64) pure returns (string)",
+  "function addressOf(uint64) view returns (address)",
+  "function checksumOf(uint64) pure returns (uint8)",
+  "function claimFees(address)",
+  "function claimFeesToSelf()",
+  "function format(uint64) pure returns (string)",
+  "function getPendingFees(address) view returns (uint256)",
+  "function isRegistered(address) view returns (bool)",
+  "function nextNumber() view returns (uint64)",
+  "function numberOf(address) view returns (uint64)",
+  "function register(address) payable returns (uint64)",
+  "function registrationOpen() view returns (bool)",
+  "function xbanOf(address) view returns (string)"
+]
