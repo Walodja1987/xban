@@ -95,7 +95,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
     /// @notice DETH contract used to burn part of each registration fee.
     address public constant DETH =
-        0xE46861C9f28c46F27949fb471986d59B256500a7;
+        0xE46861C9f28c46F27949fb471986d59B256500a7; // Sepolia: 0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A
 
     // -------------------------------------------------------------------------
     // State
