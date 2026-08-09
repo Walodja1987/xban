@@ -54,7 +54,7 @@ describe("XBAN", function () {
   }
 
   function expectedChecksum(number: bigint): number {
-    const resultingNumber = number * 1_000_000n + 331_000n;
+    const resultingNumber = number * 1_000_000n + 331_400n;
     return Number(98n - (resultingNumber % 97n));
   }
 
@@ -263,8 +263,8 @@ describe("XBAN", function () {
     it("Should match documented checksum examples", async () => {
       const s = await loadFixture(setup);
 
-      expect(await s.xban.checksumOf(1n)).to.equal(35n);
-      expect(await s.xban.checksumOf(2n)).to.equal(8n);
+      expect(await s.xban.checksumOf(1n)).to.equal(23n);
+      expect(await s.xban.checksumOf(2n)).to.equal(93n);
       expect(await s.xban.checksumOf(1n)).to.equal(expectedChecksum(1n));
       expect(await s.xban.checksumOf(2n)).to.equal(expectedChecksum(2n));
     });
@@ -272,8 +272,8 @@ describe("XBAN", function () {
     it("Should format compact XBANs with zero-padded account and checksum", async () => {
       const s = await loadFixture(setup);
 
-      expect(await s.xban.format(1n)).to.equal("XA350000000000000001");
-      expect(await s.xban.format(2n)).to.equal("XA080000000000000002");
+      expect(await s.xban.format(1n)).to.equal("XE230000000000000001");
+      expect(await s.xban.format(2n)).to.equal("XE930000000000000002");
       expect(await s.xban.accountComponentOf(12345n)).to.equal(
         "0000000000012345",
       );
@@ -287,7 +287,7 @@ describe("XBAN", function () {
         .register(s.user1.address, { value: REGISTRATION_FEE });
 
       expect(await s.xban.xbanOf(s.user1.address)).to.equal(
-        "XA350000000000000001",
+        "XE230000000000000001",
       );
     });
 

@@ -14,20 +14,20 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 ///
 /// Canonical compact format:
 ///
-///     XACCNNNNNNNNNNNNNNNN
+///     XECCNNNNNNNNNNNNNNNN
 ///
 /// Human-readable display format:
 ///
-///     XA CC NNNN NNNN NNNN NNNN
+///     XE CC NNNN NNNN NNNN NNNN
 ///
 /// Components:
-/// - `XA`: fixed registry identifier for XBAN v1
+/// - `XE`: fixed registry identifier for XBAN v1 (`E` for Ethereum)
 /// - `CC`: two decimal checksum digits calculated using the IBAN MOD-97 method
 /// - `N`: sixteen-digit sequential decimal account number
 ///
 /// Example:
 ///
-///     XA 35 0000 0000 0000 0001
+///     XE 23 0000 0000 0000 0001
 ///
 /// Core properties:
 /// - Every valid XBAN maps to exactly one nonzero Ethereum address.
@@ -275,11 +275,11 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     ///
     /// Example compact form:
     ///
-    ///     XA350000000000000001
+    ///     XE230000000000000001
     ///
     /// Human-readable display:
     ///
-    ///     XA 35 0000 0000 0000 0001
+    ///     XE 23 0000 0000 0000 0001
     ///
     /// @param target Registered address.
     /// @return xban Canonical compact XBAN without spaces.
@@ -312,17 +312,17 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
         bytes memory result = new bytes(XBAN_LENGTH);
 
-        // Fixed XBAN v1 registry identifier: XA.
+        // Fixed XBAN v1 registry identifier: XE (`E` for Ethereum).
         result[0] = 0x58; // X
-        result[1] = 0x41; // A
+        result[1] = 0x45; // E
 
         /*
          * Convert the numeric checksum into two ASCII characters.
          *
-         * Example: checksum 35
+         * Example: checksum 23
          *
-         * checksum / 10 = 3  -> ASCII "3"
-         * checksum % 10 = 5  -> ASCII "5"
+         * checksum / 10 = 2  -> ASCII "2"
+         * checksum % 10 = 3  -> ASCII "3"
          *
          * ASCII "0" has value 48, so adding 48 converts a numeric
          * digit from 0 through 9 into its corresponding ASCII byte.
@@ -351,8 +351,8 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     /// @notice Returns the IBAN-style MOD-97 checksum for an account number.
     ///
     /// Examples:
-    /// - `checksumOf(1) == 35`
-    /// - `checksumOf(2) == 8`, displayed as `08`
+    /// - `checksumOf(1) == 23`
+    /// - `checksumOf(2) == 93`
     ///
     /// @param number Numeric XBAN account number.
     /// @return checksum Checksum represented numerically.
@@ -483,7 +483,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     ///
     /// @param number The numeric XBAN account number represented in the final
     /// identifier as exactly sixteen zero-padded decimal digits. It excludes
-    /// the `XA` registry identifier and the two checksum digits.
+    /// the `XE` registry identifier and the two checksum digits.
     ///
     /// Example for account number 1:
     ///
@@ -491,30 +491,30 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     ///
     /// Checksum generation begins with the provisional XBAN:
     ///
-    ///     XA00 0000 0000 0000 0001
+    ///     XE00 0000 0000 0000 0001
     ///
     /// Following the IBAN procedure, the first four characters are moved
     /// to the end:
     ///
-    ///     0000 0000 0000 0001 XA00
+    ///     0000 0000 0000 0001 XE00
     ///
     /// Letters are converted using A = 10 through Z = 35:
     ///
     ///     X = 33
-    ///     A = 10
+    ///     E = 14
     ///
     /// This produces the decimal sequence:
     ///
-    ///     0000000000000001331000
+    ///     0000000000000001331400
     ///
     /// Ignoring leading zeros, this is:
     ///
-    ///     1331000
+    ///     1331400
     ///
     /// Because leading zeros do not affect the numeric value, the resulting
     /// decimal number can be constructed directly as:
     ///
-    ///     number * 1,000,000 + 331,000
+    ///     number * 1,000,000 + 331,400
     ///
     /// The function applies modulo 97 once to this resulting decimal number
     /// and calculates:
@@ -527,7 +527,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     ) private pure returns (uint8 checksum) {
         uint256 resultingNumber =
             uint256(number) * 1_000_000 +
-            331_000;
+            331_400;
 
         return uint8(98 - (resultingNumber % 97));
     }

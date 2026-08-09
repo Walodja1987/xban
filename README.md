@@ -53,7 +53,7 @@ Instead of sending funds to hexadecimal addresses such as
 users can send funds to a simple numeric identifier such as
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 ```
 
 Every XBAN permanently resolves to exactly one Ethereum address. Once assigned, an XBAN can never be reassigned, transferred, modified or deleted.
@@ -79,7 +79,7 @@ The two protocols complement one another by serving different purposes.
 | Protocol | Purpose |
 |----------|---------|
 | **XNS** | Human-readable names (e.g. `alice.xns`) |
-| **XBAN** | Banking-style payment identifiers (e.g. `XA 35 0000 0000 0000 0001`) |
+| **XBAN** | Banking-style payment identifiers (e.g. `XE 23 0000 0000 0000 0001`) |
 
 Both identifiers permanently resolve to the same Ethereum address and can coexist for the same account.
 
@@ -137,9 +137,9 @@ For example:
 
 | XBAN | Ethereum Address |
 |------|------------------|
-| XA 35 0000 0000 0000 0001 | `0x1234...abcd` |
-| XA 08 0000 0000 0000 0002 | `0xabcd...1234` |
-| XA 78 0000 0000 0000 0003 | `0x9876...4321` |
+| XE 23 0000 0000 0000 0001 | `0x1234...abcd` |
+| XE 93 0000 0000 0000 0002 | `0xabcd...1234` |
+| XE 66 0000 0000 0000 0003 | `0x9876...4321` |
 
 The mapping is immutable.
 
@@ -177,7 +177,7 @@ Resolving an XBAN is straightforward.
 Applications simply look up the registered account number in the XBAN contract.
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
                 │
                 ▼
       account number = 1
@@ -198,21 +198,21 @@ If an account number has never been registered, the contract returns `address(0)
 Every XBAN consists of twenty characters:
 
 ```
-XA350000000000000001
+XE230000000000000001
 ```
 
 For readability, applications are encouraged to display XBANs in grouped form:
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 ```
 
 The identifier consists of three components:
 
 | Component | Description |
 |-----------|-------------|
-| `XA` | Fixed XBAN registry identifier |
-| `35` | MOD-97 checksum |
+| `XE` | Fixed XBAN registry identifier (`E` for Ethereum) |
+| `23` | MOD-97 checksum |
 | `0000000000000001` | Sixteen-digit sequential account number |
 
 The account number is always displayed using exactly sixteen decimal digits.
@@ -235,13 +235,13 @@ For account number `1`, checksum generation proceeds as follows.
 Start with the provisional XBAN:
 
 ```
-XA00 0000 0000 0000 0001
+XE00 0000 0000 0000 0001
 ```
 
 Move the first four characters to the end:
 
 ```
-0000 0000 0000 0001 XA00
+0000 0000 0000 0001 XE00
 ```
 
 Replace letters using the IBAN mapping:
@@ -249,6 +249,8 @@ Replace letters using the IBAN mapping:
 ```
 A = 10
 B = 11
+...
+E = 14
 ...
 X = 33
 ...
@@ -258,31 +260,31 @@ Z = 35
 The resulting decimal sequence is therefore:
 
 ```
-0000000000000001331000
+0000000000000001331400
 ```
 
 Ignoring leading zeros:
 
 ```
-1331000
+1331400
 ```
 
 Finally,
 
 ```
-checksum = 98 − (1331000 mod 97)
+checksum = 98 − (1331400 mod 97)
 ```
 
 which produces
 
 ```
-35
+23
 ```
 
 The complete XBAN is therefore:
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 ```
 
 A valid XBAN always produces a remainder of **1** when the complete identifier is evaluated modulo **97**, exactly like a valid IBAN.
@@ -392,7 +394,7 @@ addressOf(uint64 number)
 For example:
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 ```
 
 becomes
@@ -440,13 +442,13 @@ XBANs should always be stored and transmitted in their canonical compact form.
 Example:
 
 ```
-XA350000000000000001
+XE230000000000000001
 ```
 
 For improved readability, applications are encouraged to display grouped formatting:
 
 ```
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 ```
 
 Spaces are presentation-only and must not affect checksum validation.
@@ -458,11 +460,11 @@ Applications should accept XBANs entered with or without spaces.
 For example, all of the following should be interpreted identically:
 
 ```
-XA350000000000000001
+XE230000000000000001
 
-XA 35 0000 0000 0000 0001
+XE 23 0000 0000 0000 0001
 
-XA35 0000 0000 0000 0001
+XE23 0000 0000 0000 0001
 ```
 
 Applications should ignore whitespace before validating the checksum.
