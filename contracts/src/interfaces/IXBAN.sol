@@ -36,4 +36,5 @@ interface IXBAN {
     // function acceptOwnership() external;
     // function owner() external view returns (address);
     // function pendingOwner() external view returns (address);
+    // function renounceOwnership() external; // overridden to always revert
 }

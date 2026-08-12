@@ -40,6 +40,8 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 /// - XBAN mappings cannot be changed, deleted, or redirected.
 /// - The owner controls only the receipt of future protocol fees.
 /// - Ownership transfers use OpenZeppelin's two-step process.
+/// - Renouncing ownership is disabled so future fees cannot be permanently
+///   stranded at address(0).
 ///
 /// Registration economics:
 /// - Total registration fee: 0.0005 ETH
@@ -139,6 +141,14 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
     /// @param initialOwner Initial owner and recipient of future protocol fees.
     constructor(address initialOwner) Ownable(initialOwner) {}
+
+    /// @notice Renouncing ownership is disabled.
+    ///
+    /// Ownership exists solely to receive future protocol fees. Setting the
+    /// owner to `address(0)` would permanently strand those fees.
+    function renounceOwnership() public pure override {
+        revert("XBAN: renounce disabled");
+    }
 
     // =========================================================================
     // State-modifying functions

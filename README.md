@@ -541,6 +541,8 @@ Only after acceptance does the ownership transfer become effective.
 
 This mechanism prevents accidental transfers to incorrect or inaccessible addresses.
 
+`renounceOwnership()` is disabled. Ownership exists solely to receive future protocol fees, and renouncing would permanently strand those fees at `address(0)`.
+
 ## Protocol Fees
 
 Each registration credits the protocol fee to the owner **at the time the registration occurs**.

@@ -444,6 +444,14 @@ describe("XBAN", function () {
         s.xban.connect(s.user2).acceptOwnership(),
       ).to.be.revertedWithCustomError(s.xban, "OwnableUnauthorizedAccount");
     });
+
+    it("Should revert when renouncing ownership", async () => {
+      const s = await loadFixture(setup);
+
+      await expect(
+        s.xban.connect(s.owner).renounceOwnership(),
+      ).to.be.revertedWith("XBAN: renounce disabled");
+    });
   });
 
   describe("Contract self-registration", function () {

@@ -29,7 +29,7 @@
   "function pendingOwner() view returns (address)",
   "function register(address) payable returns (uint64)",
   "function registrationOpen() view returns (bool)",
-  "function renounceOwnership()",
+  "function renounceOwnership() pure",
   "function transferOwnership(address)",
   "function xbanOf(address) view returns (string)"
 ]

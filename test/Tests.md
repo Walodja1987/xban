@@ -98,6 +98,7 @@ The following test cases are implemented in [XBAN.test.ts](./XBAN.test.ts).
 
 - Should revert when non-owner transfers
 - Should revert when non-pending owner accepts
+- Should revert when renouncing ownership
 
 ---
 
