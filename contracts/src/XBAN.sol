@@ -155,7 +155,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     // State-modifying functions
     // =========================================================================
 
-    /// @notice Permanently assigns the next sequential XBAN to `target`.
+    /// @notice Assigns the next sequential XBAN to `target`.
     ///
     /// Anyone may register any nonzero Ethereum address. The registrar gains
     /// no ownership, control, transfer rights, or other authority over the
@@ -168,7 +168,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     /// - 0.0003 ETH is credited to the current XBAN owner.
     ///
     /// @param target Nonzero address to register.
-    /// @return number Permanently assigned XBAN account number.
+    /// @return number Assigned XBAN account number.
     function register(
         address target
     ) external payable nonReentrant returns (uint64 number) {
@@ -228,8 +228,10 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
     /// @notice Returns the address associated with an XBAN account number.
     ///
-    /// Returns `address(0)` if the account number is unregistered, zero, or
-    /// outside the valid XBAN number range.
+    /// Returns `address(0)` when there is no registration for `number`.
+    /// That includes account number zero and values outside the valid range,
+    /// which are never assigned. `address(0)` itself is unassignable, so this
+    /// return value is never a real mapping.
     ///
     /// @param number XBAN account number.
     /// @return target Permanently associated address, or address(0).
@@ -253,7 +255,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
     /// @notice Returns whether an address has a registered XBAN.
     ///
-    /// The zero address always returns false.
+    /// The zero address always returns false as it's unassignable.
     ///
     /// @param target Address to check.
     /// @return registered True if the address has an XBAN.
@@ -306,6 +308,14 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
     /// @notice Formats an account number as a canonical compact XBAN.
     ///
+    /// Example compact form:
+    ///
+    ///     XE230000000000000001
+    ///
+    /// Human-readable display:
+    ///
+    ///     XE 23 0000 0000 0000 0001
+    ///
     /// Formatting does not require the account number to have been assigned.
     /// This permits deterministic testing and precomputation.
     ///
@@ -323,7 +333,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
 
         bytes memory result = new bytes(XBAN_LENGTH);
 
-        // Fixed XBAN v1 registry identifier: XE (`E` for Ethereum).
+        // Fixed XBAN prefix: XE
         result[0] = 0x58; // X
         result[1] = 0x45; // E
 
