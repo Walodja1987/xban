@@ -33,8 +33,8 @@ function delay(ms: number) {
 
 // XBAN contract owner address (recipient of future protocol fees)
 // Set to null to use the deployer address as the owner
-const xbanOwnerAddress: string | null = null;
-// Example: const xbanOwnerAddress: string | null = "0x9AdEFeb576dcF52F5220709c1B267d89d5208D78";
+const xbanOwnerAddress: string | null =
+  "0xEd5356Cf46b7cFfbA4ae0bF804E5C810e60e00CC";
 // Example: const xbanOwnerAddress: string | null = null; // use deployer address as the owner
 
 export default async function main(hre: HardhatRuntimeEnvironment) {

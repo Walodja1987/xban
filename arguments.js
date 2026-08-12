@@ -3,8 +3,6 @@
 // See also here: https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#complex-arguments
 //
 // XBAN constructor: [initialOwner]
-// Replace with the address that should receive protocol fees before verifying.
-
 module.exports = [
-  "0x0000000000000000000000000000000000000001", // initialOwner
+  "0xEd5356Cf46b7cFfbA4ae0bF804E5C810e60e00CC", // initialOwner
 ];

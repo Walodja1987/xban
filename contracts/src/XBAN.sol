@@ -59,10 +59,11 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     // Storage
     // -------------------------------------------------------------------------
 
-    /// @dev XBAN account number to permanently associated address.
+    /// @dev XBAN account number to associated address.
+    /// The zero address means the account number is not registered.
     mapping(uint64 number => address target) private _addressOf;
 
-    /// @dev Address to permanently associated XBAN account number.
+    /// @dev Address to associated XBAN account number.
     /// A value of zero means that the address is not registered.
     mapping(address target => uint64 number) private _numberOf;
 
@@ -80,8 +81,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     uint256 public constant BURN_AMOUNT = 0.0002 ether;
 
     /// @notice Portion of each registration fee credited to the owner.
-    uint256 public constant OWNER_FEE =
-        REGISTRATION_FEE - BURN_AMOUNT;
+    uint256 public constant OWNER_FEE = REGISTRATION_FEE - BURN_AMOUNT; // 0.0003 ETH
 
     /// @notice Number of decimal digits in the account-number component.
     uint256 public constant ACCOUNT_LENGTH = 16;
@@ -92,13 +92,13 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     /**
      * @notice Largest account number representable by sixteen decimal digits.
      *
-     * 10^16 - 1 = 9,999,999,999,999,999
+     * 10^16 - 1 = 9,999,999,999,999,999 (just under ten quadrillion)
      */
     uint64 public constant MAX_NUMBER = 9_999_999_999_999_999;
 
     /// @notice DETH contract used to burn part of each registration fee.
     address public constant DETH =
-        0xE46861C9f28c46F27949fb471986d59B256500a7; // Sepolia: 0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A
+        0xE46861C9f28c46F27949fb471986d59B256500a7;
 
     // -------------------------------------------------------------------------
     // State
@@ -116,9 +116,9 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     // Events
     // -------------------------------------------------------------------------
 
-    /// @notice Emitted whenever an XBAN is permanently assigned.
+    /// @notice Emitted whenever an XBAN is assigned.
     /// @param number Sequential XBAN account number.
-    /// @param target Address permanently associated with the XBAN.
+    /// @param target Address associated with the XBAN.
     /// @param registrar Address that paid for the registration.
     event Registered(
         uint64 indexed number,
