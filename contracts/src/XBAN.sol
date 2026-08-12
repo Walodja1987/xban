@@ -21,23 +21,22 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 ///     XE CC NNNN NNNN NNNN NNNN
 ///
 /// Components:
-/// - `XE`: fixed registry identifier for XBAN v1 (`E` for Ethereum)
+/// - `XE`: fixed registry identifier for XBAN
 /// - `CC`: two decimal checksum digits calculated using the IBAN MOD-97 method
 /// - `N`: sixteen-digit sequential decimal account number
 ///
 /// Example:
 ///
-///     XE 23 0000 0000 0000 0001
+///     XE 60 0000 0047 6193 5072
 ///
 /// Core properties:
 /// - Every valid XBAN maps to exactly one nonzero Ethereum address.
 /// - Every address can receive at most one XBAN.
 /// - Anyone may pay to register any nonzero Ethereum address.
 /// - Registrations are permanent, immutable, and non-transferable.
-/// - Account numbers are allocated sequentially, starting at 1.
-/// - Account number zero is invalid and permanently unassignable.
+/// - Account numbers are allocated sequentially, starting at 1 (XE 23 0000 0000 0000 0001).
 /// - Registrants cannot select their account number.
-/// - XBAN mappings cannot be changed, deleted, or redirected.
+/// - The zero address is unassignable because it is the unregistered-address sentinel.
 /// - The owner controls only the receipt of future protocol fees.
 /// - Ownership transfers use OpenZeppelin's two-step process.
 /// - Renouncing ownership is disabled so future fees cannot be permanently
@@ -45,14 +44,16 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 ///
 /// Registration economics:
 /// - Total registration fee: 0.0005 ETH
-/// - Burned through DETH: 0.0002 ETH
+/// - Burned through DETH contract: 0.0002 ETH
 /// - Credited to the current owner: 0.0003 ETH
 ///
 /// Accrued fees remain claimable by the address to which they were originally
 /// credited. Transferring ownership affects only future protocol fees.
 ///
-/// If the sixteen-digit account-number space is exhausted, new registrations
-/// permanently stop. Existing XBANs remain valid and resolvable indefinitely.
+/// If the sixteen-digit account-number space is exhausted (just under ten
+/// quadrillion (10^16 − 1) registrations) new registrations permanently stop.
+/// Existing XBANs remain valid and resolvable indefinitely. Further growth
+/// requires a new contract deployment with a different registry prefix.
 contract XBAN is Ownable2Step, ReentrancyGuard {
     // -------------------------------------------------------------------------
     // Storage
