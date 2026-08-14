@@ -265,8 +265,12 @@ describe("XBAN", function () {
 
       expect(await s.xban.checksumOf(1n)).to.equal(23n);
       expect(await s.xban.checksumOf(2n)).to.equal(93n);
+      expect(await s.xban.checksumOf(4761935072n)).to.equal(60n);
       expect(await s.xban.checksumOf(1n)).to.equal(expectedChecksum(1n));
       expect(await s.xban.checksumOf(2n)).to.equal(expectedChecksum(2n));
+      expect(await s.xban.checksumOf(4761935072n)).to.equal(
+        expectedChecksum(4761935072n),
+      );
     });
 
     it("Should format compact XBANs with zero-padded account and checksum", async () => {
@@ -274,6 +278,10 @@ describe("XBAN", function () {
 
       expect(await s.xban.format(1n)).to.equal("XE230000000000000001");
       expect(await s.xban.format(2n)).to.equal("XE930000000000000002");
+      // Website example: XE 60 0000 0047 6193 5072
+      expect(await s.xban.format(4761935072n)).to.equal(
+        "XE600000004761935072",
+      );
       expect(await s.xban.accountComponentOf(12345n)).to.equal(
         "0000000000012345",
       );

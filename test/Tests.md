@@ -58,10 +58,11 @@ The following test cases are implemented in [XBAN.test.ts](./XBAN.test.ts).
 
 #### Functionality
 
-- Should match documented checksum examples (`checksumOf(1) == 23`, `checksumOf(2) == 93`)
+- Should match documented checksum examples (`checksumOf(1) == 23`, `checksumOf(2) == 93`, `checksumOf(4761935072) == 60`)
 - Should format compact XBANs with zero-padded account and checksum
   - `format(1) == "XE230000000000000001"`
   - `format(2) == "XE930000000000000002"`
+  - `format(4761935072) == "XE600000004761935072"` (`XE 60 0000 0047 6193 5072`)
   - `accountComponentOf(12345) == "0000000000012345"`
 - Should return `xbanOf` for registered addresses
 
