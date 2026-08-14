@@ -1,0 +1,5 @@
+[
+  "event NameRegistered(string indexed,string indexed,address indexed)",
+  "function getName(address) view returns (string)",
+  "function registerName(string,string) payable"
+]
