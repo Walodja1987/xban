@@ -15,17 +15,17 @@
 
 ## Table of Contents
 
-1. [Overview](#-overview)
-2. [How It Works](#-how-it-works) \
+1. [Overview](#overview)
+2. [How It Works](#how-it-works) \
    2.1 [Registration](#registration) \
    2.2 [Resolution](#resolution) \
    2.3 [XBAN Format](#xban-format) \
    2.4 [Checksum](#checksum)
-3. [Registration Fee](#-registration-fee) \
+3. [Registration Fee](#registration-fee) \
    3.1 [Fee Distribution](#fee-distribution) \
    3.2 [Why Charge a Fee?](#why-charge-a-fee) \
    3.3 [Number Space](#number-space)
-4. [Integration Guide](#-integration-guide) \
+4. [Integration Guide](#integration-guide) \
    4.1 [Resolving an XBAN](#resolving-an-xban) \
    4.2 [Looking Up an XBAN](#looking-up-an-xban) \
    4.3 [Display Format](#display-format) \
@@ -33,14 +33,16 @@
    4.5 [Checksum Validation](#checksum-validation) \
    4.6 [Smart Contracts](#smart-contracts) \
    4.7 [Gas Efficiency](#gas-efficiency)
-5. [Contract Ownership](#-contract-ownership) \
+5. [Contract Ownership](#contract-ownership) \
    5.1 [Ownership Transfer](#ownership-transfer) \
    5.2 [Protocol Fees](#protocol-fees) \
    5.3 [Why Any Ownership At All?](#why-any-ownership-at-all)
-6. [API](#-api)
-7. [Design Principles](#-design-principles)
-8. [Future Extensions](#-future-extensions)
-9. [License and Deployment Policy](#-license-and-deployment-policy)
+6. [API](#api)
+7. [Design Principles](#design-principles)
+8. [Future Extensions](#future-extensions)
+9. [License and Deployment Policy](#license-and-deployment-policy)
+
+## Overview
 
 XBAN is an Ethereum-native registry that assigns permanent, immutable, banking-style account numbers to Ethereum addresses.
 
@@ -72,7 +74,7 @@ Unlike traditional banking systems, however, XBAN has no central administrator t
 
 ## Relationship with XNS
 
-XBAN is not intended to replace XNS.
+XBAN is not intended to replace [XNS](https://xns.name).
 
 The two protocols complement one another by serving different purposes.
 
