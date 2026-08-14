@@ -42,7 +42,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 /// - Ownership transfers use OpenZeppelin's two-step process.
 /// - Renouncing ownership is disabled so future fees cannot be permanently
 ///   stranded at address(0).
-/// - At deployment, the contract registers the XNS name `xban.xns` for itself.
+/// - At deployment, the contract registers the XNS name `xban-contract.xns` for itself.
 ///
 /// Registration economics:
 /// - Total registration fee: 0.0005 ETH
@@ -102,7 +102,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     address public constant DETH =
         0xE46861C9f28c46F27949fb471986d59B256500a7;
 
-    /// @dev XNS registry used once at deployment to register `xban.xns`.
+    /// @dev XNS registry used once at deployment to register `xban-contract.xns`.
     /// Kept private so this contract does not advertise a forever-canonical
     /// registry pointer after a future XNS migration.
     /// Sepolia: 0x708a6a410Ea26E536F6534Ac5c98FDD73a4BFe23
@@ -150,13 +150,14 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     // -------------------------------------------------------------------------
 
     /// @param initialOwner Initial owner and recipient of future protocol fees.
-    /// @dev Registers the XNS name `xban.xns` for this contract. `msg.value` must
-    /// cover the current `xns` namespace price on XNS; send the exact amount to
+    /// @dev Registers the XNS name `xban-contract.xns` for this contract. `msg.value`
+    /// must cover the current `xns` namespace price on XNS; send the exact amount to
     /// avoid a refund (this contract has no `receive()`).
     constructor(address initialOwner) payable Ownable(initialOwner) {
         // Mirror XNS naming itself `xns` at deployment: name this contract
-        // `xban.xns` so the registry is discoverable via XNS.
-        IXNS(_XNS).registerName{value: msg.value}("xban", "xns");
+        // `xban-contract.xns` so the registry is discoverable via XNS without
+        // colliding with a future frontend hosted as `xban.xns`.
+        IXNS(_XNS).registerName{value: msg.value}("xban-contract", "xns");
     }
 
     /// @notice Renouncing ownership is disabled.

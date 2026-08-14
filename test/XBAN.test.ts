@@ -86,7 +86,7 @@ describe("XBAN", function () {
       expect(await s.xban.nextNumber()).to.equal(1n);
       expect(await s.xban.registrationOpen()).to.equal(true);
       expect(await s.xns.getName(await s.xban.getAddress())).to.equal(
-        "xban.xns",
+        "xban-contract.xns",
       );
     });
 
