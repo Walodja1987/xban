@@ -326,8 +326,8 @@ This mechanism prevents accidental transfers to incorrect or inaccessible addres
 
 | Network | Address |
 |---------|---------|
-| Ethereum Mainnet | _TBD_ |
-| Sepolia | _TBD_ |
+| Ethereum Mainnet | [0x2F315fDa02D24eE4eAc056ABff24E7976e25742C](https://etherscan.io/address/0x2F315fDa02D24eE4eAc056ABff24E7976e25742C#readContract) |
+| Sepolia | [0x3109c5AbEC6973378858013Ee5e1Acd63EA58cEd](https://sepolia.etherscan.io/address/0x3109c5AbEC6973378858013Ee5e1Acd63EA58cEd#readContract) |
 
 ## 11. License and Deployment Policy
 

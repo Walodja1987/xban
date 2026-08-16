@@ -408,10 +408,7 @@ contract XBAN is Ownable2Step, ReentrancyGuard {
     /// @dev Burns part of the registration fee, credits the protocol fee,
     /// and refunds any excess payment.
     function _processETHPayment() private {
-        /*
-         * Match XNS behavior: DETH credits the payer or sponsor that funded
-         * the registration.
-         */
+        // DETH credits the payer or sponsor that funded the registration.
         IDETH(DETH).burn{value: BURN_AMOUNT}(msg.sender);
 
         /*
