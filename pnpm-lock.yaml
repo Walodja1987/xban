@@ -19,8 +19,8 @@ importers:
         specifier: ^1.5.0
         version: 1.8.0(ethers@6.17.0)(hardhat@2.29.0)(zksync-ethers@6.21.2)
       '@matterlabs/hardhat-zksync-ethers':
-        specifier: 1.2.1
-        version: 1.2.1(ethers@6.17.0)(ts-node@10.9.2)(typescript@5.9.3)(zksync-ethers@6.21.2)
+        specifier: 1.4.0
+        version: 1.4.0(ethers@6.17.0)(ts-node@10.9.2)(typescript@5.9.3)(zksync-ethers@6.21.2)
       '@matterlabs/hardhat-zksync-solc':
         specifier: ^1.2.5
         version: 1.5.1(hardhat@2.29.0)
@@ -1098,14 +1098,15 @@ packages:
       - supports-color
     dev: true
 
-  /@matterlabs/hardhat-zksync-ethers@1.2.1(ethers@6.17.0)(ts-node@10.9.2)(typescript@5.9.3)(zksync-ethers@6.21.2):
-    resolution: {integrity: sha512-J/ZpGx2Ig9AUxsKbE4IqpQ6hetqO7RPRFaSrdIcEWzurSYWb40Ih/HkQD03f5cSAjzhQEKaNlyVofefqLGkdZg==}
+  /@matterlabs/hardhat-zksync-ethers@1.4.0(ethers@6.17.0)(ts-node@10.9.2)(typescript@5.9.3)(zksync-ethers@6.21.2):
+    resolution: {integrity: sha512-nsXgj75+yd/rsPJ2C1ljVy7UWsTprp5mfeTBW7pU97TKb7g4atyZYnWQc2mb8DRKYflnnozSBoEdV80pAZsu6A==}
     peerDependencies:
       ethers: ^6.12.2
-      zksync-ethers: ^6.11.2
+      zksync-ethers: ^6.15.0
     dependencies:
       '@matterlabs/hardhat-zksync-deploy': 1.8.0(ethers@6.17.0)(hardhat@2.29.0)(zksync-ethers@6.21.2)
       '@matterlabs/hardhat-zksync-solc': 1.5.1(hardhat@2.29.0)
+      '@matterlabs/hardhat-zksync-telemetry': 1.1.1(debug@4.4.3)(hardhat@2.29.0)
       '@nomicfoundation/hardhat-ethers': 3.1.3(ethers@6.17.0)(hardhat@2.29.0)
       chai: 4.5.0
       chalk: 4.1.2
@@ -1151,7 +1152,7 @@ packages:
     peerDependencies:
       hardhat: ^2.22.5
     dependencies:
-      '@matterlabs/zksync-telemetry-js': github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
+      '@matterlabs/zksync-telemetry-js': git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
       hardhat: 2.29.0(ts-node@10.9.2)(typescript@5.9.3)
     transitivePeerDependencies:
       - debug
@@ -9952,9 +9953,9 @@ packages:
       ethers: 5.8.0
     dev: true
 
-  github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
-    resolution: {tarball: https://codeload.github.com/matter-labs/zksync-telemetry-js/tar.gz/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11}
-    id: github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
+  git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
+    resolution: {commit: 2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11, repo: git@github.com:matter-labs/zksync-telemetry-js.git, type: git}
+    id: git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
     name: zksync-telemetry
     version: 1.0.0
     dependencies:
