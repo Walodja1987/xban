@@ -16,31 +16,32 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [How It Works](#how-it-works) \
-   2.1 [Registration](#registration) \
-   2.2 [Resolution](#resolution) \
-   2.3 [XBAN Format](#xban-format) \
-   2.4 [Checksum](#checksum)
-3. [Registration Fee](#registration-fee) \
-   3.1 [Fee Distribution](#fee-distribution) \
-   3.2 [Why Charge a Fee?](#why-charge-a-fee) \
-   3.3 [Number Space](#number-space)
-4. [Integration Guide](#integration-guide) \
-   4.1 [Resolving an XBAN](#resolving-an-xban) \
-   4.2 [Looking Up an XBAN](#looking-up-an-xban) \
-   4.3 [Display Format](#display-format) \
-   4.4 [User Input](#user-input) \
-   4.5 [Checksum Validation](#checksum-validation) \
-   4.6 [Smart Contracts](#smart-contracts) \
-   4.7 [Gas Efficiency](#gas-efficiency)
-5. [Contract Ownership](#contract-ownership) \
-   5.1 [Ownership Transfer](#ownership-transfer) \
-   5.2 [Protocol Fees](#protocol-fees) \
-   5.3 [Why Any Ownership At All?](#why-any-ownership-at-all)
-6. [API](#api)
-7. [Design Principles](#design-principles)
-8. [Future Extensions](#future-extensions)
-9. [License and Deployment Policy](#license-and-deployment-policy)
+2. [Core Principles](#core-principles)
+3. [XBAN Format](#xban-format)
+4. [How It Works](#how-it-works) \
+   4.1 [Registration](#registration) \
+   4.2 [Resolution](#resolution)
+5. [Checksum Calculation](#checksum-calculation)
+6. [Registration Fee](#registration-fee) \
+   6.1 [Fee Distribution](#fee-distribution) \
+   6.2 [Why Charge a Fee?](#why-charge-a-fee) \
+   6.3 [Number Space](#number-space)
+7. [Integration Guide](#integration-guide) \
+   7.1 [Resolving an XBAN](#resolving-an-xban) \
+   7.2 [Looking Up an XBAN](#looking-up-an-xban) \
+   7.3 [Display Format](#display-format) \
+   7.4 [User Input](#user-input) \
+   7.5 [Checksum Validation](#checksum-validation) \
+   7.6 [Smart Contracts](#smart-contracts) \
+   7.7 [Gas Efficiency](#gas-efficiency)
+8. [Contract Ownership](#contract-ownership) \
+   8.1 [Ownership Transfer](#ownership-transfer) \
+   8.2 [Protocol Fees](#protocol-fees) \
+   8.3 [Why Any Ownership At All?](#why-any-ownership-at-all)
+9. [API](#api)
+10. [Design Principles](#design-principles)
+11. [Future Extensions](#future-extensions)
+12. [License and Deployment Policy](#license-and-deployment-policy)
 
 ## Overview
 
@@ -85,6 +86,32 @@ XBAN was designed around the following set of principles.
 - **Permissionless** — anyone can pay to sponsor an XBAN for any nonzero address, including smart contracts.
 - **Simple** — mappings are 1:1, making lookups straightforward.
 - **Decentralized** — no governance.
+
+## XBAN Format
+
+Every XBAN consists of twenty characters:
+
+```
+XE600000004761935072
+```
+
+For readability, applications are encouraged to display XBANs in grouped form:
+
+```
+XE 60 0000 0047 6193 5072
+```
+
+The identifier consists of three components:
+
+| Component | Description |
+|-----------|-------------|
+| `XE` | Fixed XBAN registry identifier |
+| `CC` | Two-digit [MOD-97 checksum](#checksum-calculation) |
+| `N` × 16 | Sixteen-digit sequential account number |
+
+The account number is always displayed using exactly sixteen decimal digits.
+
+Leading zeros are part of the canonical representation.
 
 ## How It Works
 
@@ -143,33 +170,7 @@ If an account number has never been registered, the contract returns `address(0)
 
 > **⚠️Important**: Applications must treat `address(0)` as an unregistered or invalid XBAN. Never proceed with a transaction or rely on address resolution if the result is `address(0)` to prevent loss of funds.
 
-## XBAN Format
-
-Every XBAN consists of twenty characters:
-
-```
-XE600000004761935072
-```
-
-For readability, applications are encouraged to display XBANs in grouped form:
-
-```
-XE 60 0000 0047 6193 5072
-```
-
-The identifier consists of three components:
-
-| Component | Description |
-|-----------|-------------|
-| `XE` | Fixed XBAN registry identifier |
-| `23` | MOD-97 checksum |
-| `0000000000000001` | Sixteen-digit sequential account number |
-
-The account number is always displayed using exactly sixteen decimal digits.
-
-Leading zeros are part of the canonical representation.
-
-## Checksum calculation
+## Checksum Calculation
 
 XBAN uses the same MOD-97 checksum algorithm employed by the International Bank Account Number (IBAN) standard.
 
@@ -239,7 +240,7 @@ XE 23 0000 0000 0000 0001
 
 A valid XBAN always produces a remainder of **1** when the complete identifier is evaluated modulo **97**, exactly like a valid IBAN.
 
-# 3. Registration Fee
+# 6. Registration Fee
 
 Registering an XBAN requires a one-time registration fee of **0.0005 ETH**.
 
@@ -318,7 +319,7 @@ Should Ethereum ever require additional account numbers, a future registry could
 
 This approach preserves the immutability of existing identifiers while allowing the address space to expand if it ever becomes necessary.
 
-# 4. Integration Guide
+# 7. Integration Guide
 
 XBAN is intentionally simple to integrate.
 
@@ -453,7 +454,7 @@ Likewise, looking up the XBAN assigned to an address requires a single storage l
 
 As a result, the protocol remains inexpensive to integrate both on-chain and off-chain.
 
-# 5. Contract Ownership
+# 8. Contract Ownership
 
 XBAN uses OpenZeppelin's `Ownable2Step` contract for protocol ownership.
 
@@ -542,7 +543,7 @@ Rather than introducing governance, treasuries or tokenomics, XBAN simply direct
 
 This keeps the protocol economically sustainable while preserving the immutability of every registered XBAN.
 
-# 6. API
+# 9. API
 
 | Function | Description |
 |----------|-------------|
@@ -558,7 +559,7 @@ This keeps the protocol economically sustainable while preserving the immutabili
 | `claimFeesToSelf()` | Claims fees to the caller. |
 | `getPendingFees(address)` | Returns claimable protocol fees. |
 
-# 7. Design Principles
+# 10. Design Principles
 
 XBAN deliberately follows a minimal design philosophy.
 
@@ -577,7 +578,7 @@ Every design decision is guided by the following principles:
 
 Whenever simplicity and additional features conflict, simplicity takes precedence.
 
-# 8. Future Extensions
+# 11. Future Extensions
 
 The XBAN protocol intentionally defines only the core registry.
 
@@ -594,7 +595,7 @@ One possible long-term direction is allowing traditional financial institutions 
 
 Such integrations can be developed independently without requiring changes to the XBAN protocol itself.
 
-# 9. License and Deployment Policy
+# 12. License and Deployment Policy
 
 The XBAN smart contract is released under the Business Source License 1.1 (BUSL-1.1).
 
