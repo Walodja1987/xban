@@ -44,7 +44,11 @@
 
 ## Overview
 
-XBAN is an Ethereum-native registry that assigns permanent, immutable, banking-style account numbers to Ethereum addresses.
+Ethereum addresses are technically robust but difficult for humans to read, verify and communicate.
+
+Human-readable naming systems such as XNS, ENS, WNS or GNS solve memorability, but financial institutions and credit card systems operate using structured numeric account identifiers.
+
+XBAN introduces a familiar banking-style addressing layer for Ethereum.
 
 Instead of sending funds to hexadecimal addresses such as
 
@@ -69,62 +73,20 @@ The protocol deliberately follows several concepts established by the Internatio
 - MOD-97 checksum validation
 - Simple human transcription
 
-Unlike traditional banking systems, however, XBAN has no central administrator that can reassign account numbers or modify mappings after registration.
+By adopting a fixed-length numeric identifier with an IBAN-style checksum, Ethereum payments become easier to verify manually. In addition, it provides a bridge between traditional financial workflows and Ethereum-native payments.
 
-## Relationship with XNS
-
-XBAN is not intended to replace [XNS](https://xns.name).
-
-The two protocols complement one another by serving different purposes.
-
-| Protocol | Purpose |
-|----------|---------|
-| **XNS** | Human-readable names (e.g. `alice.xns`) |
-| **XBAN** | Banking-style payment identifiers (e.g. `XE 60 0000 0047 6193 5072`) |
-
-Both identifiers permanently resolve to the same Ethereum address and can coexist for the same account.
-
-Applications may choose whichever identifier best fits their users. Consumer wallets may primarily display XNS names, whereas banks, custodians, accounting software and enterprise payment systems may prefer XBAN.
+XBAN is not a name service and does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. Applications may choose whichever identifier best fits their users.
 
 ## Core Principles
 
-XBAN was designed around a small set of immutable principles.
+XBAN was designed around the following set of principles.
 
-- **Permanent** — registrations never expire.
-- **Immutable** — mappings can never be changed.
-- **Sequential** — account numbers are allocated in registration order.
-- **Predictable** — users cannot choose or auction account numbers.
 - **Decimal-only** — optimized for mobile devices and numeric keypads.
-- **Ethereum-native** — every XBAN resolves directly to an Ethereum address.
-- **Protocol-neutral** — works equally well for externally owned accounts and smart contracts.
-- **Decentralized** — no governance can modify existing mappings.
-- **Simple** — intentionally minimal and easy to integrate.
-
-## Why XBAN?
-
-Ethereum addresses are technically robust but difficult for humans to read, verify and communicate.
-
-Human-readable naming systems such as XNS solve memorability, but many financial institutions and payment systems naturally operate using structured numeric account identifiers.
-
-XBAN introduces a familiar banking-style addressing layer for Ethereum without sacrificing decentralization.
-
-Potential applications include:
-
-- crypto wallets
-- exchanges
-- payment processors
-- banks
-- custodians
-- accounting systems
-- payroll platforms
-- invoicing software
-- enterprise treasury systems
-
-By adopting a fixed-length numeric identifier with an IBAN-style checksum, Ethereum payments become easier to verify manually while remaining entirely self-custodial.
-
-XBAN does not aim to replace existing banking infrastructure.
-
-Instead, it provides a bridge between traditional financial workflows and Ethereum-native payments.
+- **Sequential** — account numbers are allocated in registration order; users cannot choose or auction them.
+- **Immutable** — mappings never expire and cannot be changed.
+- **Permissionless** — anyone can pay to sponsor an XBAN for any nonzero address, including smart contracts.
+- **Simple** — mappings are 1:1, making lookups straightforward.
+- **Decentralized** — no governance.
 
 # 2. How It Works
 
