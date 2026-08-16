@@ -85,8 +85,8 @@ importers:
         specifier: ^9.13.0
         version: 9.39.5
       eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.2(eslint@9.39.5)
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.39.5)
       ethers:
         specifier: ^6.13.4
         version: 6.17.0
@@ -1151,7 +1151,7 @@ packages:
     peerDependencies:
       hardhat: ^2.22.5
     dependencies:
-      '@matterlabs/zksync-telemetry-js': github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
+      '@matterlabs/zksync-telemetry-js': git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
       hardhat: 2.29.0(ts-node@10.9.2)(typescript@5.9.3)
     transitivePeerDependencies:
       - debug
@@ -4779,8 +4779,8 @@ packages:
       source-map: 0.2.0
     dev: true
 
-  /eslint-config-prettier@9.1.2(eslint@9.39.5):
-    resolution: {integrity: sha512-iI1f+D2ViGn+uvv5HuHVUamg8ll4tN+JRHGc6IJi4TP9Kl976C57fzPXgseXNs8v0iA8aSJpHsTWjDb9QJamGQ==}
+  /eslint-config-prettier@10.1.8(eslint@9.39.5):
+    resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -9952,9 +9952,9 @@ packages:
       ethers: 5.8.0
     dev: true
 
-  github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
-    resolution: {tarball: https://codeload.github.com/matter-labs/zksync-telemetry-js/tar.gz/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11}
-    id: github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
+  git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
+    resolution: {commit: 2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11, repo: git@github.com:matter-labs/zksync-telemetry-js.git, type: git}
+    id: git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
     name: zksync-telemetry
     version: 1.0.0
     dependencies:
