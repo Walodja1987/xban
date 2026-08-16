@@ -59,7 +59,7 @@ importers:
         version: 5.6.1
       '@tenderly/hardhat-tenderly':
         specifier: ^2.4.0
-        version: 2.6.0(@types/node@22.20.1)(hardhat@2.29.0)
+        version: 2.6.0(@types/node@26.2.0)(hardhat@2.29.0)
       '@truffle/dashboard-hardhat-plugin':
         specifier: ^0.2.15
         version: 0.2.15(hardhat@2.29.0)
@@ -76,8 +76,8 @@ importers:
         specifier: ^10.0.9
         version: 10.0.10
       '@types/node':
-        specifier: ^22.7.8
-        version: 22.20.1
+        specifier: ^26.2.0
+        version: 26.2.0
       chai:
         specifier: ^4.5.0
         version: 4.5.0
@@ -119,7 +119,7 @@ importers:
         version: 0.6.0-beta.36(hardhat@2.29.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@22.20.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@26.2.0)(typescript@5.9.3)
       typechain:
         specifier: ^8.3.2
         version: 8.3.2(typescript@5.9.3)
@@ -1151,7 +1151,7 @@ packages:
     peerDependencies:
       hardhat: ^2.22.5
     dependencies:
-      '@matterlabs/zksync-telemetry-js': github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
+      '@matterlabs/zksync-telemetry-js': git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3)
       hardhat: 2.29.0(ts-node@10.9.2)(typescript@5.9.3)
     transitivePeerDependencies:
       - debug
@@ -2530,14 +2530,14 @@ packages:
       js-yaml: 4.3.1
       open: 8.4.2
       prompts: 2.4.2
-      ts-node: 10.9.2(@types/node@22.20.1)(typescript@5.9.3)
+      ts-node: 10.9.2(@types/node@26.2.0)(typescript@5.9.3)
       tslog: 4.11.0
       typescript: 5.9.3
     transitivePeerDependencies:
       - debug
     dev: true
 
-  /@tenderly/hardhat-integration@1.2.0(@types/node@22.20.1)(hardhat@2.29.0):
+  /@tenderly/hardhat-integration@1.2.0(@types/node@26.2.0)(hardhat@2.29.0):
     resolution: {integrity: sha512-E4/eRcmjCXV8VL1giMsgmqj7VKUm4SUQUziMBP3QjWuZ1gbbnSf6M7bHzRfS5FZCiylCqJmVRTyrE/EkJgMl7w==}
     peerDependencies:
       hardhat: ^2.22.6
@@ -2550,7 +2550,7 @@ packages:
       hardhat-deploy: 0.11.45
       npm-registry-fetch: 17.1.0
       semver: 7.8.5
-      ts-node: 10.9.2(@types/node@22.20.1)(typescript@5.9.3)
+      ts-node: 10.9.2(@types/node@26.2.0)(typescript@5.9.3)
       tslog: 4.11.0
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -2563,7 +2563,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@tenderly/hardhat-tenderly@2.6.0(@types/node@22.20.1)(hardhat@2.29.0):
+  /@tenderly/hardhat-tenderly@2.6.0(@types/node@26.2.0)(hardhat@2.29.0):
     resolution: {integrity: sha512-WL7ki+CvM4hribXMMahucG7gFSp5GSrf1+QMDeZLw6KUQo3MfNEwD7j0Fwl1UfAHHyxGkXKKUxH1SKmDKx0D2Q==}
     dependencies:
       '@ethersproject/bignumber': 5.8.0
@@ -2572,7 +2572,7 @@ packages:
       '@nomicfoundation/hardhat-verify': 2.1.3(hardhat@2.29.0)
       '@openzeppelin/hardhat-upgrades': 3.9.1(@nomicfoundation/hardhat-ethers@3.1.3)(@nomicfoundation/hardhat-verify@2.1.3)(ethers@6.17.0)(hardhat@2.29.0)
       '@openzeppelin/upgrades-core': 1.46.0
-      '@tenderly/hardhat-integration': 1.2.0(@types/node@22.20.1)(hardhat@2.29.0)
+      '@tenderly/hardhat-integration': 1.2.0(@types/node@26.2.0)(hardhat@2.29.0)
       dotenv: 16.6.1
       ethers: 6.17.0
     transitivePeerDependencies:
@@ -2867,7 +2867,7 @@ packages:
   /@types/bn.js@5.2.0:
     resolution: {integrity: sha512-DLbJ1BPqxvQhIGbeu8VbUC1DiAiahHtAYvA0ZEAa4P31F7IaArc8z3C3BRQdWX4mtLQuABG4yzp76ZrS02Ui1Q==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/cacheable-request@6.0.3:
@@ -2875,7 +2875,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.2.0
       '@types/keyv': 3.1.4
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
       '@types/responselike': 1.0.3
     dev: true
 
@@ -2892,7 +2892,7 @@ packages:
   /@types/connect@3.4.36:
     resolution: {integrity: sha512-P63Zd/JUGq+PdrM1lv0Wv5SBYeA2+CORvbrXbngriYY0jzLUWfQMQQxOhjONEz/wlHOAxOdY7CY65rgQdTjq2w==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/estree@1.0.9:
@@ -2903,7 +2903,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/http-cache-semantics@4.2.0:
@@ -2917,7 +2917,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/minimatch@6.0.0:
@@ -2934,17 +2934,11 @@ packages:
   /@types/mysql@2.15.26:
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/node@12.20.55:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-    dev: true
-
-  /@types/node@22.20.1:
-    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
-    dependencies:
-      undici-types: 6.21.0
     dev: true
 
   /@types/node@22.7.5:
@@ -2953,10 +2947,16 @@ packages:
       undici-types: 6.19.8
     dev: true
 
+  /@types/node@26.2.0:
+    resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
+    dependencies:
+      undici-types: 8.3.0
+    dev: true
+
   /@types/pbkdf2@3.1.2:
     resolution: {integrity: sha512-uRwJqmiXmh9++aSu1VNEn3iIxWOhd8AHXNSdlaLfdAAdSTY9jYVeGWnzejM3dvrkbqE3/hyQkQQ29IFATEGlew==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/pg-pool@2.0.6:
@@ -2968,7 +2968,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
       pg-protocol: 1.16.0
       pg-types: 2.2.0
     dev: true
@@ -2984,13 +2984,13 @@ packages:
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/secp256k1@4.0.7:
     resolution: {integrity: sha512-Rcvjl6vARGAKRO6jHeKMatGrvOMGrR/AR11N1x2LqintPCyDZ7NBhrh238Z2VZc7aM7KIwnFpFQ7fnfK4H/9Qw==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/shimmer@1.2.0:
@@ -3000,7 +3000,7 @@ packages:
   /@types/tedious@4.0.14:
     resolution: {integrity: sha512-KHPsfX/FoVbUGbyYvk1q9MMQHLPeRZhRJZdO45Q4YjvFkv4hMNghCWTvy7rdKessBsmtz4euWCWAB6/tVpI1Iw==}
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
     dev: true
 
   /@types/w3c-web-usb@1.0.14:
@@ -5894,7 +5894,7 @@ packages:
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.11
       tinyglobby: 0.2.17
-      ts-node: 10.9.2(@types/node@22.20.1)(typescript@5.9.3)
+      ts-node: 10.9.2(@types/node@26.2.0)(typescript@5.9.3)
       tsort: 0.0.1
       typescript: 5.9.3
       undici: 5.29.0
@@ -7763,7 +7763,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
       long: 5.3.2
     dev: true
 
@@ -8969,7 +8969,7 @@ packages:
       code-block-writer: 13.0.3
     dev: true
 
-  /ts-node@10.9.2(@types/node@22.20.1)(typescript@5.9.3):
+  /ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
     peerDependencies:
@@ -8988,7 +8988,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.20.1
+      '@types/node': 26.2.0
       acorn: 8.18.0
       acorn-walk: 8.3.5
       arg: 4.1.3
@@ -9171,8 +9171,8 @@ packages:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
     dev: true
 
-  /undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  /undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
     dev: true
 
   /undici@5.29.0:
@@ -9952,9 +9952,9 @@ packages:
       ethers: 5.8.0
     dev: true
 
-  github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
-    resolution: {tarball: https://codeload.github.com/matter-labs/zksync-telemetry-js/tar.gz/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11}
-    id: github.com/matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
+  git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11(debug@4.4.3):
+    resolution: {commit: 2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11, repo: git@github.com:matter-labs/zksync-telemetry-js.git, type: git}
+    id: git@github.com+matter-labs/zksync-telemetry-js/2fd9edbe6b9a5e0c2caeda4b04dd5631d7546a11
     name: zksync-telemetry
     version: 1.0.0
     dependencies:
