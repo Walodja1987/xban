@@ -37,9 +37,6 @@ const xbanOwnerAddress: string | null =
   "0xEd5356Cf46b7cFfbA4ae0bF804E5C810e60e00CC";
 // Example: const xbanOwnerAddress: string | null = null; // use deployer address as the owner
 
-// Must match XBAN._XNS (mainnet). Constructor registers `xban-contract.xns` against this address.
-const XNS_ADDRESS = "0x648E4F05aF2b7eB85109A8dc8AE81D8E006457D8";
-
 export default async function main(hre: HardhatRuntimeEnvironment) {
   console.log("Starting deployment of XBAN...\n");
 
@@ -67,18 +64,8 @@ export default async function main(hre: HardhatRuntimeEnvironment) {
     }\n`,
   );
 
-  // Query the live `xns` namespace price so the constructor can register `xban-contract.xns`.
-  const xns = await hre.ethers.getContractAt(
-    ["function getNamespacePrice(string) view returns (uint256)"],
-    XNS_ADDRESS,
-  );
-  const xnsNameFee: bigint = await xns.getNamespacePrice("xns");
-  console.log(
-    `XNS name fee for xban-contract.xns: ${GREEN}${hre.ethers.formatEther(xnsNameFee)}${RESET} ETH\n`,
-  );
-
   const XBAN = await hre.ethers.getContractFactory("XBAN");
-  const xban = await XBAN.deploy(ownerAddress, { value: xnsNameFee });
+  const xban = await XBAN.deploy(ownerAddress);
   await xban.waitForDeployment();
 
   const contractAddress = await xban.getAddress();

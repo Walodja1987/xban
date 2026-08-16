@@ -6,11 +6,9 @@ import { Contract } from "ethers";
 
 describe("XBAN", function () {
   const DETH_ADDRESS = "0xE46861C9f28c46F27949fb471986d59B256500a7";
-  const XNS_ADDRESS = "0x648E4F05aF2b7eB85109A8dc8AE81D8E006457D8";
   const REGISTRATION_FEE = ethers.parseEther("0.0005");
   const BURN_AMOUNT = ethers.parseEther("0.0002");
   const OWNER_FEE = ethers.parseEther("0.0003");
-  const XNS_NAME_FEE = ethers.parseEther("0.001");
   const MAX_NUMBER = 9_999_999_999_999_999n;
   // Ownable (slot 0) + Ownable2Step (slot 1) + three mappings (slots 2–4).
   // ReentrancyGuard uses namespaced storage, so nextNumber is at slot 5.
@@ -23,7 +21,6 @@ describe("XBAN", function () {
     user2: SignerWithAddress;
     user3: SignerWithAddress;
     deth: Contract;
-    xns: Contract;
   }
 
   async function deployDethAtCanonicalAddress(): Promise<Contract> {
@@ -39,29 +36,13 @@ describe("XBAN", function () {
     return ethers.getContractAt("DETH", DETH_ADDRESS);
   }
 
-  async function deployXnsAtCanonicalAddress(): Promise<Contract> {
-    const xnsDeployed = await ethers.deployContract("MockXNS");
-    await xnsDeployed.waitForDeployment();
-    const xnsBytecode = await ethers.provider.getCode(
-      await xnsDeployed.getAddress(),
-    );
-    await ethers.provider.send("hardhat_setCode", [
-      XNS_ADDRESS,
-      xnsBytecode,
-    ]);
-    return ethers.getContractAt("MockXNS", XNS_ADDRESS);
-  }
-
   async function setup(): Promise<SetupOutput> {
     const [owner, user1, user2, user3] = await ethers.getSigners();
     const deth = await deployDethAtCanonicalAddress();
-    const xns = await deployXnsAtCanonicalAddress();
-    const xban = await ethers.deployContract("XBAN", [owner.address], {
-      value: XNS_NAME_FEE,
-    });
+    const xban = await ethers.deployContract("XBAN", [owner.address]);
     await xban.waitForDeployment();
 
-    return { xban, owner, user1, user2, user3, deth, xns };
+    return { xban, owner, user1, user2, user3, deth };
   }
 
   async function setNextNumber(xban: Contract, value: bigint) {
@@ -85,9 +66,6 @@ describe("XBAN", function () {
       expect(await s.xban.pendingOwner()).to.equal(ethers.ZeroAddress);
       expect(await s.xban.nextNumber()).to.equal(1n);
       expect(await s.xban.registrationOpen()).to.equal(true);
-      expect(await s.xns.getName(await s.xban.getAddress())).to.equal(
-        "xban-contract.xns",
-      );
     });
 
     it("Should have correct constants", async () => {
@@ -104,11 +82,10 @@ describe("XBAN", function () {
 
     it("Should revert when owner is address(0)", async () => {
       await deployDethAtCanonicalAddress();
-      await deployXnsAtCanonicalAddress();
       const XBANFactory = await ethers.getContractFactory("XBAN");
 
       await expect(
-        XBANFactory.deploy(ethers.ZeroAddress, { value: XNS_NAME_FEE }),
+        XBANFactory.deploy(ethers.ZeroAddress),
       ).to.be.revertedWithCustomError(XBANFactory, "OwnableInvalidOwner");
     });
   });

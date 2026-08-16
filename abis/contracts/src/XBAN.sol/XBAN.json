@@ -1,5 +1,5 @@
 [
-  "constructor(address) payable",
+  "constructor(address)",
   "error OwnableInvalidOwner(address)",
   "error OwnableUnauthorizedAccount(address)",
   "error ReentrancyGuardReentrantCall()",

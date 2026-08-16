@@ -55,20 +55,19 @@ Instead of sending funds to hexadecimal addresses such as
 users can send funds to a simple numeric identifier such as
 
 ```
-XE 23 0000 0000 0000 0001
+XE 60 0000 0047 6193 5072
 ```
 
 Every XBAN permanently resolves to exactly one Ethereum address. Once assigned, an XBAN can never be reassigned, transferred, modified or deleted.
 
-XBAN was designed to make Ethereum payment identifiers feel familiar to banks, payment providers, enterprises and mainstream users while remaining fully decentralized and entirely on-chain.
+XBAN was designed to make Ethereum payment identifiers feel as familiar as bank account and credit card numbers while remaining fully decentralized and entirely on-chain.
 
 The protocol deliberately follows several concepts established by the International Bank Account Number (IBAN):
 
-- fixed-length identifiers
-- decimal account numbers
+- Fixed-length identifiers
+- Decimal account numbers
 - MOD-97 checksum validation
-- permanent account identifiers
-- simple human transcription
+- Simple human transcription
 
 Unlike traditional banking systems, however, XBAN has no central administrator that can reassign account numbers or modify mappings after registration.
 
@@ -81,7 +80,7 @@ The two protocols complement one another by serving different purposes.
 | Protocol | Purpose |
 |----------|---------|
 | **XNS** | Human-readable names (e.g. `alice.xns`) |
-| **XBAN** | Banking-style payment identifiers (e.g. `XE 23 0000 0000 0000 0001`) |
+| **XBAN** | Banking-style payment identifiers (e.g. `XE 60 0000 0047 6193 5072`) |
 
 Both identifiers permanently resolve to the same Ethereum address and can coexist for the same account.
 
@@ -139,7 +138,7 @@ For example:
 
 | XBAN | Ethereum Address |
 |------|------------------|
-| XE 23 0000 0000 0000 0001 | `0x1234...abcd` |
+| XE 60 0000 0047 6193 5072 | `0x1234...abcd` |
 | XE 93 0000 0000 0000 0002 | `0xabcd...1234` |
 | XE 66 0000 0000 0000 0003 | `0x9876...4321` |
 
@@ -179,7 +178,7 @@ Resolving an XBAN is straightforward.
 Applications simply look up the registered account number in the XBAN contract.
 
 ```
-XE 23 0000 0000 0000 0001
+XE 60 0000 0047 6193 5072
                 │
                 ▼
       account number = 1
@@ -200,13 +199,13 @@ If an account number has never been registered, the contract returns `address(0)
 Every XBAN consists of twenty characters:
 
 ```
-XE230000000000000001
+XE600000004761935072
 ```
 
 For readability, applications are encouraged to display XBANs in grouped form:
 
 ```
-XE 23 0000 0000 0000 0001
+XE 60 0000 0047 6193 5072
 ```
 
 The identifier consists of three components:
@@ -444,13 +443,13 @@ XBANs should always be stored and transmitted in their canonical compact form.
 Example:
 
 ```
-XE230000000000000001
+XE600000004761935072
 ```
 
 For improved readability, applications are encouraged to display grouped formatting:
 
 ```
-XE 23 0000 0000 0000 0001
+XE 60 0000 0047 6193 5072
 ```
 
 Spaces are presentation-only and must not affect checksum validation.
@@ -462,11 +461,11 @@ Applications should accept XBANs entered with or without spaces.
 For example, all of the following should be interpreted identically:
 
 ```
-XE230000000000000001
+XE600000004761935072
 
-XE 23 0000 0000 0000 0001
+XE 60 0000 0047 6193 5072
 
-XE23 0000 0000 0000 0001
+XE60 0000 0047 6193 5072
 ```
 
 Applications should ignore whitespace before validating the checksum.

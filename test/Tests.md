@@ -13,7 +13,6 @@ The following test cases are implemented in [XBAN.test.ts](./XBAN.test.ts).
   - `pendingOwner` is zero
   - `nextNumber` starts at 1
   - `registrationOpen()` is true
-  - Registers XNS name `xban-contract.xns` for the contract
 - Should have correct constants
   - `REGISTRATION_FEE` = 0.0005 ETH
   - `BURN_AMOUNT` = 0.0002 ETH
