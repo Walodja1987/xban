@@ -15,35 +15,22 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-2. [Core Principles](#core-principles)
-3. [XBAN Format](#xban-format)
-4. [How It Works](#how-it-works) \
-   4.1 [Registration](#registration) \
-   4.2 [Resolution](#resolution)
-5. [Checksum Calculation](#checksum-calculation)
-6. [Registration Fee](#registration-fee) \
-   6.1 [Fee Distribution](#fee-distribution) \
-   6.2 [Why Charge a Fee?](#why-charge-a-fee) \
-   6.3 [Number Space](#number-space)
-7. [Integration Guide](#integration-guide) \
-   7.1 [Resolving an XBAN](#resolving-an-xban) \
-   7.2 [Looking Up an XBAN](#looking-up-an-xban) \
-   7.3 [Display Format](#display-format) \
-   7.4 [User Input](#user-input) \
-   7.5 [Checksum Validation](#checksum-validation) \
-   7.6 [Smart Contracts](#smart-contracts) \
-   7.7 [Gas Efficiency](#gas-efficiency)
-8. [Contract Ownership](#contract-ownership) \
-   8.1 [Ownership Transfer](#ownership-transfer) \
-   8.2 [Protocol Fees](#protocol-fees) \
-   8.3 [Why Any Ownership At All?](#why-any-ownership-at-all)
-9. [API](#api)
-10. [Design Principles](#design-principles)
-11. [Future Extensions](#future-extensions)
-12. [License and Deployment Policy](#license-and-deployment-policy)
+1. [Overview](#1-overview)
+2. [XBAN Format](#2-xban-format)
+3. [Core Principles](#3-core-principles)
+4. [How It Works](#4-how-it-works) \
+   4.1 [Registration](#41-registration) \
+   4.2 [Resolution](#42-resolution) \
+   4.3 [Number Space](#43-number-space)
+5. [Checksum Calculation](#5-checksum-calculation)
+6. [Registration Fee](#6-registration-fee)
+7. [Integration Guide](#7-integration-guide)
+8. [Contract Ownership](#8-contract-ownership)
+9. [API](#9-api)
+10. [Deployments](#10-deployments)
+11. [License and Deployment Policy](#11-license-and-deployment-policy)
 
-## Overview
+## 1. Overview
 
 Ethereum addresses are technically robust but difficult for humans to read, verify and communicate.
 
@@ -76,18 +63,7 @@ By adopting a fixed-length numeric identifier with an IBAN-style checksum, Ether
 
 It is worth highlighting that an XBAN does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. 
 
-## Core Principles
-
-XBAN was designed around the following set of principles.
-
-- **Decimal-only** — optimized for mobile devices and numeric keypads.
-- **Sequential** — account numbers are allocated in registration order; users cannot choose or auction them.
-- **Immutable** — mappings never expire and cannot be changed.
-- **Permissionless** — anyone can pay to sponsor an XBAN for any nonzero address, including smart contracts.
-- **Simple** — mappings are 1:1, making lookups straightforward.
-- **Decentralized** — no governance.
-
-## XBAN Format
+## 2. XBAN Format
 
 Every XBAN consists of twenty characters:
 
@@ -106,50 +82,51 @@ The identifier consists of three components:
 | Component | Description |
 |-----------|-------------|
 | `XE` | Fixed XBAN registry identifier |
-| `CC` | Two-digit [MOD-97 checksum](#checksum-calculation) |
+| `CC` | Two-digit [MOD-97 checksum](#5-checksum-calculation) |
 | `N` × 16 | Sixteen-digit sequential account number |
 
 The account number is always displayed using exactly sixteen decimal digits.
 
 Leading zeros are part of the canonical representation.
 
-## How It Works
+## 3. Core Principles
 
-XBAN assigns permanent sequential account numbers to Ethereum addresses.
+XBAN was designed around the following set of principles.
 
-Anyone can register an XBAN for any nonzero Ethereum address by paying a one-time registration fee of 0.0005 ETH.
+- **Decimal-only** — optimized for mobile devices and numeric keypads.
+- **Sequential** — account numbers are allocated in registration order; users cannot choose or auction them.
+- **Immutable** — mappings never expire and cannot be changed.
+- **Permissionless** — anyone can pay to sponsor an XBAN for any nonzero address, including smart contracts.
+- **Simple** — mappings are 1:1, making lookups straightforward.
+- **Decentralized** — no governance.
 
-Each successful registration permanently assigns the next available account number to the specified address.
+## 4. How It Works
 
-For example:
+XBAN assigns permanent sequential account numbers to Ethereum addresses. Each address can receive at most one XBAN. Once assigned, the mapping cannot be changed.
 
-| XBAN | Ethereum Address |
-|------|------------------|
-| XE 23 0000 0000 0000 0001 | `0x1234...abcd` |
-| XE 93 0000 0000 0000 0002 | `0xabcd...1234` |
-| XE 66 0000 0000 0000 0003 | `0x9876...4321` |
+### 4.1 Registration
 
-Each address can receive at most one XBAN. Once assigned, the mapping cannot be changed.
+To register an XBAN for your own address, call `register` with that address and pay the one-time fee of **0.0005 ETH**:
 
-## Registration
+```
+register(address alice)
+```
 
-Anyone may register an XBAN for any nonzero Ethereum address, including smart contracts.
+The next available account number is assigned permanently. Account numbers cannot be chosen.
 
-The caller does **not** become the owner of the address or gain any additional rights over it. The registration merely creates a permanent mapping between the next sequential XBAN and the specified Ethereum address.
+Anyone may also pay to register an XBAN for another address, including a smart contract. The payer gains no ownership or control over the address or its XBAN — only a permanent mapping is created.
 
-For example, Alice may register an XBAN for Bob's wallet:
+For example, Alice may sponsor Bob:
 
 ```
 register(address bob)
 ```
 
-After the transaction confirms, Bob's wallet permanently owns the newly assigned XBAN even though Alice paid the registration fee.
+After confirmation, Bob's address holds the newly assigned XBAN.
 
-## Resolution
+### 4.2 Resolution
 
-Resolving an XBAN is straightforward.
-
-Applications simply look up the registered account number in the XBAN contract.
+An XBAN resolves to exactly one Ethereum address via a registry lookup.
 
 ```
 XE 60 0000 0047 6193 5072
@@ -164,13 +141,45 @@ XE 60 0000 0047 6193 5072
       0x1234...ab07
 ```
 
-Resolution always produces exactly one Ethereum address.
+Typical application flow:
 
-If an account number has never been registered, the contract returns `address(0)`
+1. Strip whitespace.
+2. Extract the sixteen-digit account number and validate the checksum — either locally (see [Checksum Calculation](#5-checksum-calculation)) or by comparing against `checksumOf(uint64 number)`.
+3. Resolve with `addressOf(uint64 number)`:
 
-> **⚠️Important**: Applications must treat `address(0)` as an unregistered or invalid XBAN. Never proceed with a transaction or rely on address resolution if the result is `address(0)` to prevent loss of funds.
+```solidity
+address target = xban.addressOf(4761935072);
+```
 
-## Checksum Calculation
+If the result is `address(0)`, the XBAN is unregistered or invalid. **Applications must not act on that result to prevent loss of funds.**
+
+To look up the XBAN for a known address:
+
+```solidity
+string memory id = xban.xbanOf(target);   // compact form (e.g., XE600000004761935072); reverts if unregistered
+uint64 number = xban.numberOf(target);    // 0 if unregistered
+bool ok = xban.isRegistered(target);
+```
+
+### 4.3 Number Space
+
+XBAN uses sixteen decimal digits for the account-number component.
+
+This provides just below **10 trillion** (10<sup>16</sup>-1) possible account numbers.
+
+The first registration receives account number 1.
+
+The final possible registration receives account number 9,999,999,999,999,999.
+
+If every account number is eventually assigned, new registrations permanently stop.
+
+Existing XBANs continue to function indefinitely.
+
+Should Ethereum ever require additional account numbers, a future registry could be deployed using a different registry identifier (for example `XB`) while leaving every existing XBAN fully functional forever.
+
+This approach preserves the immutability of existing identifiers while allowing the address space to expand if it ever becomes necessary.
+
+## 5. Checksum Calculation
 
 XBAN uses the same MOD-97 checksum algorithm employed by the International Bank Account Number (IBAN) standard.
 
@@ -181,7 +190,7 @@ The checksum detects nearly all accidental typing mistakes, including most:
 - missing digits;
 - additional digits.
 
-For account number `1`, checksum generation proceeds as follows.
+For account number 1, checksum generation proceeds as follows.
 
 Start with the provisional XBAN:
 
@@ -240,7 +249,7 @@ XE 23 0000 0000 0000 0001
 
 A valid XBAN always produces a remainder of **1** when the complete identifier is evaluated modulo **97**, exactly like a valid IBAN.
 
-# 6. Registration Fee
+## 6. Registration Fee
 
 Registering an XBAN requires a one-time registration fee of **0.0005 ETH**.
 
@@ -250,16 +259,12 @@ The fee serves several purposes:
 - provides sustainable funding for protocol development and ecosystem integrations;
 - permanently reserves an XBAN account number for an Ethereum address.
 
-Registrations never expire and require no renewal fees.
-
-## Fee Distribution
-
 The registration fee is distributed as follows:
 
 | Recipient | Amount |
 |-----------|--------|
-| Burned through DETH | 0.0002 ETH |
-| XBAN protocol owner | 0.0003 ETH |
+| Burned through [DETH](https://github.com/Walodja1987/deth) | 0.0002 ETH / 40% |
+| XBAN protocol owner | 0.0003 ETH / 60% |
 
 The burned portion is sent to the DETH contract, permanently removing the corresponding ETH from circulation while crediting the payer with DETH according to the DETH protocol.
 
@@ -267,212 +272,21 @@ The protocol fee is credited to the current XBAN contract owner and can be withd
 
 Ownership transfers do not migrate previously accrued fees. Any fees accumulated before an ownership transfer remain claimable by the address to which they were originally credited.
 
-## Why Charge a Fee?
+## 7. Integration Guide
 
-Ethereum addresses can be generated for free.
+XBAN needs only two lookups: 
+* `addressOf` (XBAN → address)
+* `xbanOf` / `numberOf` (address → XBAN)
 
-XBAN intentionally takes a different approach.
+See [Resolution](#42-resolution) for the flow and [API](#9-api) for the full surface.
 
-Every registered XBAN permanently occupies one account number for the lifetime of the protocol.
+**Display and input:** Use the compact form (`XE600000004761935072`) as the canonical form. Display the grouped form (`XE 60 0000 0047 6193 5072`) for readability. Accept either on input; ignore whitespace before checksum validation.
 
-Without a registration fee, an attacker could cheaply reserve millions of account numbers, reducing the available address space and making the registry significantly less useful over time.
-
-The one-time registration fee makes such attacks economically expensive while remaining affordable for legitimate users.
-
-Unlike many naming systems, the fee is **not** intended to create scarcity or encourage speculation.
-
-Users cannot choose their account numbers.
-
-Every registration simply receives the next available sequential number.
-
-This eliminates auctions, premium numbers, bidding wars and front-running for desirable identifiers.
-
-## Number Space
-
-XBAN uses sixteen decimal digits for the account-number component.
-
-This provides:
-
-```
-10,000,000,000,000,000
-```
-
-possible account numbers.
-
-The first registration receives account number:
-
-```
-1
-```
-
-The final possible registration receives:
-
-```
-9,999,999,999,999,999
-```
-
-If every account number is eventually assigned, new registrations permanently stop.
-
-Existing XBANs continue to function indefinitely.
-
-Should Ethereum ever require additional account numbers, a future registry could be deployed using a different registry identifier (for example `XB`) while leaving every existing XBAN fully functional forever.
-
-This approach preserves the immutability of existing identifiers while allowing the address space to expand if it ever becomes necessary.
-
-# 7. Integration Guide
-
-XBAN is intentionally simple to integrate.
-
-Applications generally require only two operations:
-
-- Resolve an XBAN to an Ethereum address.
-- Display the XBAN associated with an Ethereum address.
-
-Both operations are constant-time lookups.
-
-## Resolving an XBAN
-
-Applications should first validate the checksum locally.
-
-If the checksum is invalid, the XBAN should be rejected before interacting with the blockchain.
-
-After validation, the account number is extracted and resolved using:
-
-```solidity
-addressOf(uint64 number)
-```
-
-For example:
-
-```
-XE 23 0000 0000 0000 0001
-```
-
-becomes
-
-```
-1
-```
-
-which resolves to
-
-```solidity
-address target = xban.addressOf(1);
-```
-
-If the returned address is
-
-```solidity
-address(0)
-```
-
-the XBAN has not been registered.
-
-## Looking Up an XBAN
-
-Applications that already know an Ethereum address can retrieve its XBAN using:
-
-```solidity
-xbanOf(address target)
-```
-
-If the address has not been registered, the function reverts.
-
-Applications may check registration beforehand using:
-
-```solidity
-isRegistered(address target)
-```
-
-or simply handle the revert.
-
-## Display Format
-
-XBANs should always be stored and transmitted in their canonical compact form.
-
-Example:
-
-```
-XE600000004761935072
-```
-
-For improved readability, applications are encouraged to display grouped formatting:
-
-```
-XE 60 0000 0047 6193 5072
-```
-
-Spaces are presentation-only and must not affect checksum validation.
-
-## User Input
-
-Applications should accept XBANs entered with or without spaces.
-
-For example, all of the following should be interpreted identically:
-
-```
-XE600000004761935072
-
-XE 60 0000 0047 6193 5072
-
-XE60 0000 0047 6193 5072
-```
-
-Applications should ignore whitespace before validating the checksum.
-
-For consistency, applications are encouraged to display XBANs using the grouped format after parsing.
-
-## Checksum Validation
-
-Checksum validation can be performed entirely off-chain.
-
-No smart contract interaction is required.
-
-Wallets and payment applications should validate the checksum before submitting a transaction or performing address resolution.
-
-This allows invalid XBANs to be rejected immediately without consuming gas.
-
-## Smart Contracts
-
-Smart contracts typically do not need to work directly with formatted XBAN strings.
-
-Instead, contracts should exchange the numeric account number:
-
-```solidity
-uint64
-```
-
-The registry contract provides deterministic conversion functions for formatting and checksum generation where required.
-
-## Gas Efficiency
-
-Resolving an XBAN requires a single storage lookup.
-
-No hashing, iteration or string processing is performed during address resolution.
-
-Likewise, looking up the XBAN assigned to an address requires a single storage lookup.
-
-As a result, the protocol remains inexpensive to integrate both on-chain and off-chain.
-
-# 8. Contract Ownership
-
-XBAN uses OpenZeppelin's `Ownable2Step` contract for protocol ownership.
+## 8. Contract Ownership
 
 Ownership exists solely for receiving future protocol fees.
 
-The owner **cannot**:
-
-- modify existing XBAN registrations;
-- transfer XBANs between addresses;
-- delete registrations;
-- change address mappings;
-- reassign account numbers;
-- modify checksums;
-- alter previously registered identifiers.
-
-In other words, ownership provides **administrative control over protocol revenue only**.
-
-## Ownership Transfer
+The owner cannot edit or reassign existing XBANs in any way.
 
 Ownership transfers follow OpenZeppelin's standard two-step process.
 
@@ -492,58 +306,9 @@ Only after acceptance does the ownership transfer become effective.
 
 This mechanism prevents accidental transfers to incorrect or inaccessible addresses.
 
-`renounceOwnership()` is disabled. Ownership exists solely to receive future protocol fees, and renouncing would permanently strand those fees at `address(0)`.
+`renounceOwnership()` is disabled. Renouncing would permanently strand future protocol fees at `address(0)`.
 
-## Protocol Fees
-
-Each registration credits the protocol fee to the owner **at the time the registration occurs**.
-
-Fees accumulate inside the contract and can later be withdrawn using:
-
-```solidity
-claimFees(address recipient)
-```
-
-or
-
-```solidity
-claimFeesToSelf()
-```
-
-Ownership transfers do **not** migrate previously accrued balances.
-
-For example:
-
-1. Alice owns the protocol.
-2. Five registrations occur.
-3. Alice transfers ownership to Bob.
-4. Five additional registrations occur.
-
-Result:
-
-- Alice may claim the fees from the first five registrations.
-- Bob may claim the fees from the later five registrations.
-
-This accounting model prevents ownership changes from affecting previously earned protocol revenue.
-
-## Why Any Ownership At All?
-
-XBAN intentionally keeps protocol governance to an absolute minimum.
-
-The protocol nevertheless requires a sustainable funding mechanism to support activities such as:
-
-- wallet integrations;
-- exchange integrations;
-- payment processor integrations;
-- maintenance;
-- security reviews;
-- documentation.
-
-Rather than introducing governance, treasuries or tokenomics, XBAN simply directs a fixed portion of each registration fee to the protocol owner.
-
-This keeps the protocol economically sustainable while preserving the immutability of every registered XBAN.
-
-# 9. API
+## 9. API
 
 | Function | Description |
 |----------|-------------|
@@ -559,46 +324,17 @@ This keeps the protocol economically sustainable while preserving the immutabili
 | `claimFeesToSelf()` | Claims fees to the caller. |
 | `getPendingFees(address)` | Returns claimable protocol fees. |
 
-# 10. Design Principles
+## 10. Deployments
 
-XBAN deliberately follows a minimal design philosophy.
+| Network | Address |
+|---------|---------|
+| Ethereum Mainnet | _TBD_ |
+| Sepolia | _TBD_ |
 
-Every design decision is guided by the following principles:
-
-- Permanent registrations
-- Immutable mappings
-- Sequential allocation
-- Decimal-only identifiers
-- Fixed-length account numbers
-- Predictable behavior
-- Minimal governance
-- Ethereum-native
-- Simple integrations
-- Long-term stability
-
-Whenever simplicity and additional features conflict, simplicity takes precedence.
-
-# 11. Future Extensions
-
-The XBAN protocol intentionally defines only the core registry.
-
-Future applications may build additional functionality around it, including:
-
-- wallet integrations;
-- exchange integrations;
-- payment requests;
-- invoice standards;
-- accounting software;
-- banking integrations.
-
-One possible long-term direction is allowing traditional financial institutions to associate existing IBANs with Ethereum wallets while continuing to manage ownership through their existing banking infrastructure.
-
-Such integrations can be developed independently without requiring changes to the XBAN protocol itself.
-
-# 12. License and Deployment Policy
+## 11. License and Deployment Policy
 
 The XBAN smart contract is released under the Business Source License 1.1 (BUSL-1.1).
 
-The canonical XBAN registry is deployed on Ethereum Mainnet.
+The canonical XBAN registry is the Ethereum Mainnet deployment listed under [Deployments](#10-deployments).
 
 Applications should integrate the canonical deployment to ensure globally consistent account-number resolution.
