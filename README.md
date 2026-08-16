@@ -62,9 +62,7 @@ users can send funds to a simple numeric identifier such as
 XE 60 0000 0047 6193 5072
 ```
 
-Every XBAN permanently resolves to exactly one Ethereum address. Once assigned, an XBAN can never be reassigned, transferred, modified or deleted.
-
-XBAN was designed to make Ethereum payment identifiers feel as familiar as bank account and credit card numbers while remaining fully decentralized and entirely on-chain.
+Once an XBAN is assigned to an Ethereum address, it can never be reassigned, transferred, modified or deleted.
 
 The protocol deliberately follows several concepts established by the International Bank Account Number (IBAN):
 
@@ -75,7 +73,7 @@ The protocol deliberately follows several concepts established by the Internatio
 
 By adopting a fixed-length numeric identifier with an IBAN-style checksum, Ethereum payments become easier to verify manually. In addition, it provides a bridge between traditional financial workflows and Ethereum-native payments.
 
-XBAN is not a name service and does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. Applications may choose whichever identifier best fits their users.
+It is worth highlighting that an XBAN does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. 
 
 ## Core Principles
 
@@ -88,11 +86,11 @@ XBAN was designed around the following set of principles.
 - **Simple** — mappings are 1:1, making lookups straightforward.
 - **Decentralized** — no governance.
 
-# 2. How It Works
+## How It Works
 
 XBAN assigns permanent sequential account numbers to Ethereum addresses.
 
-Anyone can register an XBAN for any nonzero Ethereum address by paying a one-time registration fee.
+Anyone can register an XBAN for any nonzero Ethereum address by paying a one-time registration fee of 0.0005 ETH.
 
 Each successful registration permanently assigns the next available account number to the specified address.
 
@@ -100,38 +98,25 @@ For example:
 
 | XBAN | Ethereum Address |
 |------|------------------|
-| XE 60 0000 0047 6193 5072 | `0x1234...abcd` |
+| XE 23 0000 0000 0000 0001 | `0x1234...abcd` |
 | XE 93 0000 0000 0000 0002 | `0xabcd...1234` |
 | XE 66 0000 0000 0000 0003 | `0x9876...4321` |
 
-The mapping is immutable.
-
-Once an account number has been assigned:
-
-- it can never be transferred;
-- it can never be modified;
-- it can never be deleted;
-- it can never resolve to another address.
-
-Likewise, an Ethereum address can receive at most one XBAN.
-
-Unlike traditional banking systems, there is no administrator capable of reassigning account numbers after registration.
+Each address can receive at most one XBAN. Once assigned, the mapping cannot be changed.
 
 ## Registration
 
-Anyone may register an XBAN for any nonzero Ethereum address.
+Anyone may register an XBAN for any nonzero Ethereum address, including smart contracts.
 
 The caller does **not** become the owner of the address or gain any additional rights over it. The registration merely creates a permanent mapping between the next sequential XBAN and the specified Ethereum address.
 
-For example, Alice may pay the registration fee for Bob's wallet:
+For example, Alice may register an XBAN for Bob's wallet:
 
 ```
-register(bob)
+register(address bob)
 ```
 
 After the transaction confirms, Bob's wallet permanently owns the newly assigned XBAN even though Alice paid the registration fee.
-
-Registrations cannot be front-run in any meaningful way because registrars cannot choose the assigned account number and gain no control over the registered address.
 
 ## Resolution
 
@@ -143,18 +128,20 @@ Applications simply look up the registered account number in the XBAN contract.
 XE 60 0000 0047 6193 5072
                 │
                 ▼
-      account number = 1
+      account number = 4'761'935'072
                 │
                 ▼
      XBAN Registry Contract
                 │
                 ▼
-      0x1234...abcd
+      0x1234...ab07
 ```
 
 Resolution always produces exactly one Ethereum address.
 
-If an account number has never been registered, the contract returns `address(0)`.
+If an account number has never been registered, the contract returns `address(0)`
+
+> **⚠️Important**: Applications must treat `address(0)` as an unregistered or invalid XBAN. Never proceed with a transaction or rely on address resolution if the result is `address(0)` to prevent loss of funds.
 
 ## XBAN Format
 
@@ -174,7 +161,7 @@ The identifier consists of three components:
 
 | Component | Description |
 |-----------|-------------|
-| `XE` | Fixed XBAN registry identifier (`E` for Ethereum) |
+| `XE` | Fixed XBAN registry identifier |
 | `23` | MOD-97 checksum |
 | `0000000000000001` | Sixteen-digit sequential account number |
 
@@ -182,7 +169,7 @@ The account number is always displayed using exactly sixteen decimal digits.
 
 Leading zeros are part of the canonical representation.
 
-## Checksum
+## Checksum calculation
 
 XBAN uses the same MOD-97 checksum algorithm employed by the International Bank Account Number (IBAN) standard.
 
