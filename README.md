@@ -34,8 +34,6 @@
 
 Ethereum addresses are technically robust but difficult for humans to read, verify and communicate.
 
-Human-readable naming systems such as XNS, ENS, WNS or GNS solve memorability, but financial institutions and credit card systems operate using structured numeric account identifiers.
-
 XBAN introduces a familiar banking-style addressing layer for Ethereum.
 
 Instead of sending funds to hexadecimal addresses such as
@@ -59,9 +57,9 @@ The protocol deliberately follows several concepts established by the Internatio
 - MOD-97 checksum validation
 - Simple human transcription
 
-By adopting a fixed-length numeric identifier with an IBAN-style checksum, Ethereum payments become easier to verify manually. In addition, it provides a bridge between traditional financial workflows and Ethereum-native payments.
+Adopting XBANs allows for a bridge between traditional financial workflows and Ethereum-native payments.
 
-It is worth highlighting that an XBAN does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. 
+XBAN does not replace or interfere with existing naming systems such as XNS, ENS, WNS or GNS. Those protocols provide human-readable names; XBAN provides banking-style account numbers. An Ethereum address can have both, and applications can display whichever identifier fits the context. 
 
 ## 2. XBAN Format
 
@@ -165,7 +163,7 @@ bool ok = xban.isRegistered(target);
 
 XBAN uses sixteen decimal digits for the account-number component.
 
-This provides just below **10 trillion** (10<sup>16</sup>-1) possible account numbers.
+This provides just below **10 quadrillion** (10<sup>16</sup>-1) possible account numbers.
 
 The first registration receives account number 1.
 
