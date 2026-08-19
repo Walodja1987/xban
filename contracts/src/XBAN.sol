@@ -6,6 +6,17 @@ import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
+/////////////////////////////////////////////////
+//                                             // 
+// ___   ___ .______        ___      .__   __. //
+// \  \ /  / |   _  \      /   \     |  \ |  | //
+//  \  V  /  |  |_)  |    /  ^  \    |   \|  | //
+//   >   <   |   _  <    /  /_\  \   |  . `  | //
+//  /  .  \  |  |_)  |  /  _____  \  |  |\   | //
+// /__/ \__\ |______/  /__/     \__\ |__| \__| //                                           
+//                                             //  
+/////////////////////////////////////////////////
+
 /// @title XBAN
 /// @author Wladimir Weinbender (DIVA Technologies AG)
 ///

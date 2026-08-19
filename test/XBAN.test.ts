@@ -158,7 +158,7 @@ describe("XBAN", function () {
       expect(await s.deth.burned(s.user1.address)).to.equal(
         initialBurned + BURN_AMOUNT,
       );
-      expect(await s.xban.getPendingFees(s.owner.address)).to.equal(OWNER_FEE);
+      expect(await s.xban.getPendingFees(s.owner.address)).to.equal(OWNER_FEE); // pending fees are zero as test uses loadFixture()
 
       const finalUserBalance = await ethers.provider.getBalance(
         s.user1.address,
