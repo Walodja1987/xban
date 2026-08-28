@@ -65,7 +65,7 @@ export default async function main(hre: HardhatRuntimeEnvironment) {
   );
 
   const XBAN = await hre.ethers.getContractFactory("XBAN");
-  const xban = await XBAN.deploy(ownerAddress);
+  const xban = await XBAN.connect(deployer).deploy(ownerAddress);
   await xban.waitForDeployment();
 
   const contractAddress = await xban.getAddress();
