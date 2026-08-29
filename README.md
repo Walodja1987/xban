@@ -247,6 +247,8 @@ XE 23 0000 0000 0000 0001
 
 A valid XBAN always produces a remainder of **1** when the complete identifier is evaluated modulo **97**, exactly like a valid IBAN.
 
+The XBAN contract can also calculate the checksum for any valid account number via `checksumOf(uint64)`, or return the full compact XBAN via `format(uint64)`. Both functions are `pure` and do not require registration. See [API](#9-api).
+
 ## 6. Registration Fee
 
 Registering an XBAN requires a one-time registration fee of **0.0005 ETH**.
