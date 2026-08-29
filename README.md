@@ -130,7 +130,7 @@ An XBAN resolves to exactly one Ethereum address via a registry lookup.
 XE 60 0000 0047 6193 5072
                 │
                 ▼
-      account number = 4'761'935'072
+      account number = 4761935072
                 │
                 ▼
      XBAN Registry Contract
@@ -142,7 +142,7 @@ XE 60 0000 0047 6193 5072
 Typical application flow:
 
 1. Strip whitespace.
-2. Extract the sixteen-digit account number and validate the checksum — either locally (see [Checksum Calculation](#5-checksum-calculation)) or by comparing against `checksumOf(uint64 number)`.
+2. Extract the sixteen-digit account number and validate the checksum, either locally (see [Checksum Calculation](#5-checksum-calculation)) or by comparing against `checksumOf(uint64 number)`.
 3. Resolve with `addressOf(uint64 number)`:
 
 ```solidity
@@ -154,8 +154,8 @@ If the result is `address(0)`, the XBAN is unregistered or invalid. **Applicatio
 To look up the XBAN for a known address:
 
 ```solidity
-string memory id = xban.xbanOf(target);   // compact form (e.g., XE600000004761935072); reverts if unregistered
-uint64 number = xban.numberOf(target);    // 0 if unregistered
+string memory id = xban.xbanOf(target);   // returns the compact form (e.g., XE600000004761935072); reverts if unregistered
+uint64 number = xban.numberOf(target);    // returns the account number (e.g., 4761935072); 0 if unregistered
 bool ok = xban.isRegistered(target);
 ```
 
@@ -179,14 +179,14 @@ This approach preserves the immutability of existing identifiers while allowing 
 
 ## 5. Checksum Calculation
 
-XBAN uses the same MOD-97 checksum algorithm employed by the International Bank Account Number (IBAN) standard.
+XBAN uses the same MOD-97 checksum algorithm employed by the International Bank Account Number ([IBAN](https://en.wikipedia.org/wiki/International_Bank_Account_Number)) standard.
 
 The checksum detects nearly all accidental typing mistakes, including most:
 
-- single-digit errors;
-- adjacent digit swaps;
-- missing digits;
-- additional digits.
+- single-digit errors
+- adjacent digit swaps
+- missing digits
+- additional digits
 
 For account number 1, checksum generation proceeds as follows.
 
