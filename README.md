@@ -324,10 +324,10 @@ This mechanism prevents accidental transfers to incorrect or inaccessible addres
 
 ## 10. Deployments
 
-| Network | Address |
-|---------|---------|
-| Ethereum Mainnet | [0xaaeA49541840728bFec2Fc8898f8e043576232E8](https://etherscan.io/address/0xaaeA49541840728bFec2Fc8898f8e043576232E8#readContract) |
-| Sepolia | [0xaaeA49541840728bFec2Fc8898f8e043576232E8](https://sepolia.etherscan.io/address/0xaaeA49541840728bFec2Fc8898f8e043576232E8#readContract) |
+| Network | Address | XBAN |
+|---------|---------|---------|
+| Ethereum Mainnet  | [0xaaeA49541840728bFec2Fc8898f8e043576232E8](https://etherscan.io/address/0xaaeA49541840728bFec2Fc8898f8e043576232E8#readContract) | XE 66 0000 0000 0000 0003 |
+| Sepolia | [0x746BbFc1fDB3DB9bcaE3561F05b59Db656E991e0](https://sepolia.etherscan.io/address/0x746BbFc1fDB3DB9bcaE3561F05b59Db656E991e0#readContract) | XE 60 0000 0000 0000 0003 |
 
 ## 11. License and Deployment Policy
 
